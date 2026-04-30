@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Check Results - WIN Academy</title>
+    <link rel="stylesheet" href="/css/styles.css">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="logo-section">
+            <img src="/assets/logo.png" alt="WIN Academy Logo" class="logo">
+            <h2>WIN Academy</h2>
+        </div>
+        <ul class="nav-links" id="nav-links">
+            <li><a href="/index.html">Home</a></li>
+            <li><a href="/pages/admission.html">Admissions</a></li>
+            <li><a href="/pages/result.html">Results</a></li>
+        </ul>
+    </nav>
+
+    <div class="main-wrapper container">
+        <div class="card" style="max-width: 500px; margin: 0 auto; margin-top: 2rem;">
+            <h2 class="text-center">Search Results</h2>
+            <div id="message" style="margin-bottom: 1rem; color: red;"></div>
+
+            <form id="resultForm">
+                <div class="form-group">
+                    <label>Roll Number</label>
+                    <input type="text" id="roll_number" class="form-control" required>
+                </div>
+                <div class="form-group">
+                    <label>Date of Birth</label>
+                    <input type="date" id="dob" class="form-control" required>
+                </div>
+                <button type="submit" class="btn" style="width: 100%;">Check Result</button>
+            </form>
+        </div>
+
+        <div id="resultDisplay" class="card" style="margin-top: 2rem; display: none;">
+            <h3>Result Information</h3>
+            <p><strong>Name:</strong> <span id="resName"></span></p>
+            <p><strong>Roll No:</strong> <span id="resRoll"></span></p>
+            
+            <table style="width: 100%; border-collapse: collapse; margin-top: 1rem;">
+                <thead>
+                    <tr style="background-color: var(--primary-color); color: white; text-align: left;">
+                        <th style="padding: 10px;">Subject</th>
+                        <th style="padding: 10px;">Max Marks</th>
+                        <th style="padding: 10px;">Passing Marks</th>
+                        <th style="padding: 10px;">Marks Obtained</th>
+                    </tr>
+                </thead>
+                <tbody id="marksBody">
+                    <!-- Dynamic -->
+                </tbody>
+            </table>
+
+            <div style="margin-top: 2rem; padding: 1rem; background-color: var(--bg-color); border-radius: 4px;">
+                <p><strong>Total:</strong> <span id="resTotal"></span></p>
+                <p><strong>Percentage:</strong> <span id="resPercent"></span>%</p>
+                <p><strong>Status:</strong> <span id="resStatus" style="font-weight: bold;"></span></p>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <p>&copy; 2026 WIN Academy. All rights reserved.</p>
+    </footer>
+
+    <script src="/js/api.js"></script>
+    <script src="/js/main.js"></script>
+    <script>
+        document.getElementById('resultForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            
+            const roll_number = document.getElementById('roll_number').value;
+            const dob = document.getElementById('dob').value;
+            const messageEl = document.getElementById('message');
+            const resultDisplay = document.getElementById('resultDisplay');
+            
+            messageEl.textContent = 'Searching...';
+            messageEl.style.color = '#333';
+            resultDisplay.style.display = 'none';
+
+            const response = await api.post('/results/search', { roll_number, dob });
+
+            if (response && response.success) {
+                messageEl.textContent = '';
+                resultDisplay.style.display = 'block';
+
+                document.getElementById('resName').textContent = response.studentInfo.name;
+                document.getElementById('resRoll').textContent = response.studentInfo.roll_number;
+
+                const tbody = document.getElementById('marksBody');
+                tbody.innerHTML = '';
+                response.marks.forEach(mark => {
+                    tbody.innerHTML += `
+                        <tr style="border-bottom: 1px solid #ccc;">
+                            <td style="padding: 10px;">${mark.subject_name}</td>
+                            <td style="padding: 10px;">${mark.total_marks}</td>
+                            <td style="padding: 10px;">${mark.passing_marks}</td>
+                            <td style="padding: 10px; font-weight: bold;">${parseFloat(mark.marks_obtained)}</td>
+                        </tr>
+                    `;
+                });
+
+                document.getElementById('resTotal').textContent = `${response.summary.totalObtained} / ${response.summary.totalMax}`;
+                document.getElementById('resPercent').textContent = response.summary.percentage;
+                
+                const statusEl = document.getElementById('resStatus');
+                statusEl.textContent = response.summary.status;
+                statusEl.style.color = response.summary.status === 'PASS' ? 'green' : 'red';
+
+            } else {
+                messageEl.textContent = response.message || 'Error occurred';
+                messageEl.style.color = 'red';
+            }
+        });
+    </script>
+</body>
+</html>

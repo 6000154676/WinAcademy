@@ -1,0 +1,253 @@
+/* 
+   WIN ACADEMY - MAIN STYLESHEET (FINAL VERSION)
+   Clean, modern, high-contrast UI theme + animated navbar title
+*/
+
+/* =======================
+   THEME VARIABLES
+======================= */
+:root {
+    --primary-color: #0b2a4a;
+    --secondary-color: #1d6fa5;
+    --accent-color: #00b4d8;
+
+    --bg-color: #f4f7fb;
+    --card-bg: #ffffff;
+
+    --text-color: #1a1a1a;
+    --text-light: #ffffff;
+
+    --white: #ffffff;
+
+    --font-main: 'Inter', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+/* =======================
+   RESET
+======================= */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* =======================
+   BASE
+======================= */
+body {
+    font-family: var(--font-main);
+    background-color: var(--bg-color);
+    color: var(--text-color);
+    line-height: 1.7;
+}
+
+/* =======================
+   TYPOGRAPHY
+======================= */
+h1,
+h2,
+h3 {
+    color: var(--primary-color);
+    margin-bottom: 1rem;
+}
+
+p {
+    margin-bottom: 1rem;
+}
+
+a {
+    text-decoration: none;
+    color: var(--secondary-color);
+    transition: all 0.3s ease;
+}
+
+a:hover {
+    color: var(--accent-color);
+}
+
+/* =======================
+   NAVBAR
+======================= */
+.navbar {
+    background: linear-gradient(90deg, var(--primary-color), #123e6b);
+    padding: 1rem 2rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    color: var(--text-light);
+}
+
+/* =======================
+   LOGO SECTION
+======================= */
+.logo-section {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.logo {
+    height: 40px;
+}
+
+/* =======================
+   🔥 NAVBAR TITLE (FIX + ANIMATION)
+======================= */
+.nav-title {
+    font-size: 1.4rem;
+    font-weight: 800;
+    color: var(--text-light);
+    letter-spacing: 1px;
+    display: inline-block;
+    position: relative;
+
+    animation: slideFadeIn 1s ease-out;
+}
+
+/* underline hover effect */
+.nav-title::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    bottom: -5px;
+    width: 0%;
+    height: 3px;
+    background: var(--accent-color);
+    transition: width 0.4s ease;
+}
+
+.nav-title:hover::after {
+    width: 100%;
+}
+
+/* entry animation */
+@keyframes slideFadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* =======================
+   NAV LINKS
+======================= */
+.nav-links {
+    list-style: none;
+    display: flex;
+    gap: 20px;
+}
+
+.nav-links li a {
+    color: var(--text-light);
+    font-weight: 600;
+}
+
+.nav-links li a:hover {
+    color: var(--accent-color);
+}
+
+/* =======================
+   BUTTONS
+======================= */
+.btn {
+    display: inline-block;
+    padding: 0.6rem 1.4rem;
+    border: none;
+    border-radius: 6px;
+    background-color: var(--secondary-color);
+    color: var(--white);
+    font-weight: bold;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.btn:hover {
+    background-color: var(--accent-color);
+    transform: translateY(-2px);
+}
+
+.btn-secondary {
+    background-color: #e0e0e0;
+    color: var(--primary-color);
+}
+
+/* =======================
+   LAYOUT
+======================= */
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 2rem;
+}
+
+/* =======================
+   FORMS
+======================= */
+.form-group {
+    margin-bottom: 1rem;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 0.5rem;
+    font-weight: bold;
+    color: var(--primary-color);
+}
+
+.form-control {
+    width: 100%;
+    padding: 0.8rem;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    font-family: inherit;
+    outline: none;
+    transition: border 0.3s;
+}
+
+.form-control:focus {
+    border-color: var(--secondary-color);
+}
+
+/* =======================
+   CARDS
+======================= */
+.card {
+    background: var(--card-bg);
+    color: var(--text-color);
+    padding: 2rem;
+    border-radius: 12px;
+    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.08);
+    margin-bottom: 1rem;
+    transition: transform 0.3s ease;
+}
+
+.card:hover {
+    transform: translateY(-5px);
+}
+
+/* =======================
+   FOOTER
+======================= */
+footer {
+    background: var(--primary-color);
+    color: var(--text-light);
+    text-align: center;
+    padding: 2rem;
+    margin-top: auto;
+}
+
+/* =======================
+   MAIN WRAPPER
+======================= */
+.main-wrapper {
+    min-height: calc(100vh - 200px);
+}

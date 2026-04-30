@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Login - WIN Academy</title>
+    <link rel="stylesheet" href="/css/styles.css">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="logo-section">
+            <img src="/assets/logo.png" alt="WIN Academy Logo" class="logo">
+            <h2>WIN Academy</h2>
+        </div>
+        <ul class="nav-links" id="nav-links">
+            <li><a href="/index.html">Home</a></li>
+            <li><a href="/pages/admission.html">Admissions</a></li>
+            <li><a href="/pages/result.html">Results</a></li>
+        </ul>
+    </nav>
+
+    <div class="main-wrapper container">
+        <div class="card" style="max-width: 400px; margin: 0 auto; margin-top: 4rem;">
+            <h2 class="text-center">Admin Login</h2>
+            <div id="loginMessage" style="margin-bottom: 1rem; color: red;"></div>
+
+            <form id="loginForm">
+                <div class="form-group">
+                    <label>Username</label>
+                    <input type="text" id="username" class="form-control" required>
+                </div>
+                <div class="form-group">
+                    <label>Password</label>
+                    <input type="password" id="password" class="form-control" required>
+                </div>
+                <button type="submit" class="btn btn-secondary" style="width: 100%;">Login</button>
+            </form>
+        </div>
+    </div>
+
+    <footer>
+        <p>&copy; 2026 WIN Academy. All rights reserved.</p>
+    </footer>
+
+    <script src="/js/api.js"></script>
+    <script src="/js/main.js"></script>
+    <script>
+        document.getElementById('loginForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            
+            const username = document.getElementById('username').value;
+            const password = document.getElementById('password').value;
+            const msgEl = document.getElementById('loginMessage');
+            
+            msgEl.textContent = 'Authenticating...';
+            msgEl.style.color = '#333';
+
+            const response = await api.post('/auth/login', { username, password });
+
+            if (response && response.success) {
+                // Store JWT token
+                localStorage.setItem('adminToken', response.token);
+                localStorage.setItem('adminUser', JSON.stringify(response.admin));
+                // Redirect to dashboard
+                window.location.href = '/pages/dashboard.html';
+            } else {
+                msgEl.style.color = 'red';
+                msgEl.textContent = response.message || 'Login failed';
+            }
+        });
+    </script>
+</body>
+</html>

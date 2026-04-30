@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard - WIN Academy</title>
+    <link rel="stylesheet" href="/css/styles.css">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="logo-section">
+            <img src="/assets/logo.png" alt="WIN Academy Logo" class="logo">
+            <h2>WIN Academy</h2>
+        </div>
+        <ul class="nav-links" id="nav-links">
+            <li><a href="/index.html">Home</a></li>
+            <li><a href="/pages/admission.html">Admissions</a></li>
+            <li><a href="/pages/result.html">Results</a></li>
+        </ul>
+    </nav>
+
+    <div class="main-wrapper container">
+        <div class="card">
+            <h2>Welcome to Admin Dashboard</h2>
+            <p>You are successfully logged in as <strong id="adminName">Admin</strong>.</p>
+            <hr style="margin: 1rem 0; border: 0; border-top: 1px solid #ccc;">
+            
+            <div style="display: flex; gap: 1rem; flex-wrap: wrap;">
+                <div class="card" style="flex: 1; min-width: 250px; background-color: var(--bg-color);">
+                    <h3>Manage Students</h3>
+                    <p>View, edit, or remove student records.</p>
+                    <button class="btn btn-secondary" style="margin-top: 1rem;">View Students</button>
+                </div>
+                <div class="card" style="flex: 1; min-width: 250px; background-color: var(--bg-color);">
+                    <h3>Manage Results</h3>
+                    <p>Upload new marks and publish results.</p>
+                    <button class="btn btn-secondary" style="margin-top: 1rem;">Publish Marks</button>
+                </div>
+                <div class="card" style="flex: 1; min-width: 250px; background-color: var(--bg-color);">
+                    <h3>Financials</h3>
+                    <p>Check Razorpay payment logs and fees.</p>
+                    <button class="btn btn-secondary" style="margin-top: 1rem;">View Payments</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <p>&copy; 2026 WIN Academy. All rights reserved.</p>
+    </footer>
+
+    <!-- Include API & Auth guard -->
+    <script src="/js/api.js"></script>
+    <script src="/js/auth.js"></script>
+    <script src="/js/main.js"></script>
+    <script>
+        // Check authentication immediately
+        checkAuth();
+
+        document.addEventListener('DOMContentLoaded', () => {
+            const userStr = localStorage.getItem('adminUser');
+            if (userStr) {
+                const user = JSON.parse(userStr);
+                document.getElementById('adminName').textContent = user.username;
+            }
+        });
+    </script>
+</body>
+</html>
